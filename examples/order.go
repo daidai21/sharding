@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"gorm.io/driver/sqlite"
 
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/sharding"
 )
@@ -15,8 +15,9 @@ type Order struct {
 }
 
 func main() {
-	dsn := "postgres://localhost:5432/sharding-db?sslmode=disable"
-	db, err := gorm.Open(postgres.New(postgres.Config{DSN: dsn}))
+	//dsn := "postgres://localhost:5432/sharding-db?sslmode=disable"
+	//db, err := gorm.Open(postgres.New(postgres.Config{DSN: dsn}))
+	db, err := gorm.Open(sqlite.Open("examples/gorm.db"), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

@@ -9,7 +9,7 @@ import (
 	"sync"
 
 	"github.com/bwmarrin/snowflake"
-	"github.com/longbridgeapp/sqlparser"
+	"github.com/longbridgeapp/sqlparser" // sql解析器
 	"gorm.io/gorm"
 )
 
@@ -47,7 +47,7 @@ type Config struct {
 	NumberOfShards uint
 
 	// tableFormat specifies the sharding table suffix format.
-	tableFormat string
+	tableFormat string // 表后缀结构
 
 	// ShardingAlgorithm specifies a function to generate the sharding
 	// table's suffix by the column value.
@@ -59,7 +59,7 @@ type Config struct {
 	//		}
 	//		return "", errors.New("invalid user_id")
 	// 	}
-	ShardingAlgorithm func(columnValue interface{}) (suffix string, err error)
+	ShardingAlgorithm func(columnValue interface{}) (suffix string, err error) // 切片算法
 
 	// ShardingSuffixs specifies a function to generate all table's suffix.
 	// Used to support Migrator.
@@ -87,7 +87,7 @@ type Config struct {
 	// Used only when insert and the record does not contains an id field.
 	// Options are PKSnowflake, PKPGSequence and PKCustom.
 	// When use PKCustom, you should also specify PrimaryKeyGeneratorFn.
-	PrimaryKeyGenerator int
+	PrimaryKeyGenerator int // PK生成类型
 
 	// PrimaryKeyGeneratorFn specifies a function to generate the primary key.
 	// When use auto-increment like generator, the tableIdx argument could ignored.
@@ -106,6 +106,7 @@ func Register(config Config, tables ...interface{}) *Sharding {
 	}
 }
 
+// TODO
 func (s *Sharding) compile() error {
 	if s.configs == nil {
 		s.configs = make(map[string]Config)
@@ -209,6 +210,7 @@ func (s *Sharding) compile() error {
 	return nil
 }
 
+// DB 中区分插件名称，在map中记录的
 // Name plugin name for Gorm plugin interface
 func (s *Sharding) Name() string {
 	return "gorm:sharding"
@@ -269,6 +271,7 @@ func (s *Sharding) switchConn(db *gorm.DB) {
 	}
 }
 
+// TODO: 应该是router的
 // resolve split the old query to full table query and sharding table query
 func (s *Sharding) resolve(query string, args ...interface{}) (ftQuery, stQuery, tableName string, err error) {
 	ftQuery = query

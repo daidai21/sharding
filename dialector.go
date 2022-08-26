@@ -11,6 +11,7 @@ type ShardingDialector struct {
 	sharding *Sharding
 }
 
+// TODO:
 type ShardingMigrator struct {
 	gorm.Migrator
 	sharding  *Sharding
